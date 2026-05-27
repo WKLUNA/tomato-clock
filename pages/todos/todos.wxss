@@ -87,7 +87,7 @@ page {
 .fab {
   position: fixed;
   right: 40rpx;
-  bottom: 60rpx;
+  bottom: calc(180rpx + env(safe-area-inset-bottom));
   width: 110rpx;
   height: 110rpx;
   border-radius: 50%;
