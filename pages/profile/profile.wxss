@@ -5,7 +5,7 @@ page {
 
 .page {
   padding: 24rpx;
-  padding-bottom: 60rpx;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 

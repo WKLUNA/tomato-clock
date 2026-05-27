@@ -7,6 +7,7 @@ page {
 /* 容器 */
 .container {
   padding: 20rpx;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
 }
 
 /* ===== 顶部 3 张统计卡片 ===== */
