@@ -11,7 +11,7 @@ Page({
     totalCount: 0,
     totalMinutes: 0,
     version: '1.0.0',
-    author: '金凡皙'   // 
+    author: '金凡皙' 
   },
 
   /**
