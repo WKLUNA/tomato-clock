@@ -1,26 +1,27 @@
-<!-- 页面容器，使用 flex 布局实现居中 -->
 <view class="container">
-  <!-- 顶部留白区域 -->
-  <view class="top-space"></view>
-  
-  <!-- 进度环组件 -->
+  <!-- 顶部待办名 -->
+  <view class="header">
+    <view class="todo-name">{{todoName}}</view>
+  </view>
+
+  <!-- 进度环组件（接口不变） -->
   <progress-ring
     total="{{currentDuration * 60}}"
     remaining="{{minutes * 60 + seconds}}"
     running="{{isRunning}}"
   />
-  
+
   <!-- 按钮区域 -->
   <view class="btn-container">
-    <!-- 开始/暂停按钮 -->
+    <!-- 开始/暂停 -->
     <view class="btn btn-primary" bindtap="onToggleTimer">
-      <text wx:if="{{ !isRunning }}">开始</text>
+      <text wx:if="{{!isRunning}}">开始</text>
       <text wx:else>暂停</text>
     </view>
-    
-    <!-- 重置按钮 -->
-    <view class="btn btn-secondary" bindtap="onReset">
-      <text>重置</text>
+
+    <!-- 结束 -->
+    <view class="btn btn-danger" bindtap="onEnd">
+      <text>结束</text>
     </view>
   </view>
 </view>

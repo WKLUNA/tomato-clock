@@ -3,129 +3,87 @@ const storage = require('../../utils/storage.js');
 
 Page({
   /**
-   * 页面的初始数据
+   * 页面初始数据
    */
   data: {
-    minutes: 25,           // 当前显示的分钟
-    seconds: 0,            // 当前显示的秒
-    isRunning: false,      // 是否正在计时
-    status: '专注时间',     // 状态文字
-    formattedTime: '25:00', // 格式化后的时间字符串
-    currentDuration: 25     // 本轮计时使用的时长（分钟）
+    minutes: 25,
+    seconds: 0,
+    isRunning: false,
+    formattedTime: '25:00',
+    currentDuration: 25,           // 本次计时的总分钟数（来自关联的待办）
+    todoName: ''                   // 待办名称（顶部显示）
   },
 
-  /**
-   * 计时器 ID（直接挂在实例上，不放入 data）
-   */
-  timer: null,
+  // 以下字段不放在 data 里（不需要 setData 触发渲染）
+  timer: null,                     // setInterval ID
+  endTimestamp: null,              // 倒计时结束的目标时间戳
+  todo: null,                      // 当前关联的待办对象（含 id / name / duration）
 
   /**
-   * 目标结束时间戳（毫秒）
+   * 页面加载：从 URL 接收 todoId 并初始化
+   * 注意：每次 navigateTo 进入都会触发 onLoad（独立路由，不复用实例）
    */
-  endTimestamp: null,
+  onLoad(options) {
+    const todoId = Number(options.todoId);
 
-  /**
-   * 本轮计时使用的时长（分钟数），用于检测设置是否变化
-   */
-  currentDuration: null,
+    // 防御 1：todoId 缺失
+    if (!todoId) {
+      wx.showToast({ title: '参数错误', icon: 'none' });
+      setTimeout(() => wx.navigateBack(), 1000);
+      return;
+    }
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-    const settings = storage.getSettings();
-    const newDuration = settings.focusDuration;
-    
-    // 场景1：设置的时长变了 → 强制重置到新时长的初始态（放弃当前轮）
-    if (this.currentDuration !== null && this.currentDuration !== newDuration) {
-      console.log('检测到设置变更，重置到新时长');
-      // 停止计时
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
-      this.endTimestamp = null;
-      this.currentDuration = newDuration;
-      this.setData({
-        minutes: newDuration,
-        seconds: 0,
-        isRunning: false,
-        currentDuration: newDuration
-      });
-      this.updateFormattedTime();
+    // 防御 2：待办已被删除
+    const todo = storage.getTodoById(todoId);
+    if (!todo) {
+      wx.showToast({ title: '待办不存在', icon: 'none' });
+      setTimeout(() => wx.navigateBack(), 1000);
       return;
     }
-    
-    // 场景2：正在运行中（有 timer 且有 endTimestamp）→ 立刻刷新一次显示，不打断计时
-    if (this.timer && this.endTimestamp) {
-      console.log('计时器正在运行，刷新显示');
-      this.tick();
-      return;
-    }
-    
-    // 场景3：暂停中（没有 timer 但有 endTimestamp）→ 保持暂停状态，不做任何操作
-    if (!this.timer && this.endTimestamp) {
-      console.log('计时器已暂停，保持状态');
-      return;
-    }
-    
-    // 场景4：完全空闲 → 初始化显示设置的时长
-    console.log('完全空闲，初始化显示');
-    this.currentDuration = newDuration;
+
+    // 保存待办引用并初始化显示
+    this.todo = todo;
     this.setData({
-      minutes: newDuration,
-      seconds: 0
+      minutes: todo.duration,
+      seconds: 0,
+      currentDuration: todo.duration,
+      todoName: todo.name,
+      isRunning: false
     });
     this.updateFormattedTime();
+
+    // 导航栏标题用待办名（比"番茄钟"信息量大）
+    wx.setNavigationBarTitle({ title: todo.name });
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-    // 不清除 timer，让它继续运行
-    // 页面隐藏时 setInterval 仍会触发，显示更新靠 onShow 时手动同步
-    console.log('页面隐藏，计时器继续运行');
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
+   * 页面卸载：清理 timer，避免内存泄漏
    */
   onUnload() {
-    // 清除计时器，避免内存泄漏
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
-      this.endTimestamp = null;
     }
   },
 
   /**
-   * 更新格式化后的时间字符串
-   * 确保分钟和秒都显示为两位数字
+   * 更新格式化时间字符串（两位补零）
    */
   updateFormattedTime() {
     const { minutes, seconds } = this.data;
-    // 使用 padStart 方法补零到两位
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
     this.setData({
-      formattedTime: `${formattedMinutes}:${formattedSeconds}`
+      formattedTime:
+        String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0')
     });
   },
 
   /**
-   * 开始/暂停按钮点击事件
-   * 切换计时状态
+   * 开始/暂停 按钮
    */
   onToggleTimer() {
-    console.log('切换计时状态');
-    
     if (!this.data.isRunning) {
-      // 当前是停止状态，点击开始计时
       this.startTimer();
     } else {
-      // 当前是运行状态，点击暂停计时
       this.pauseTimer();
     }
   },
@@ -134,153 +92,152 @@ Page({
    * 开始计时
    */
   startTimer() {
-    console.log('开始计时');
-    
-    // 记录本轮使用的时长（首次启动时记下来）
-    const settings = storage.getSettings();
-    this.currentDuration = settings.focusDuration;
-    
-    // 计算目标结束时间戳：当前时间 + 剩余时间（毫秒）
     const { minutes, seconds } = this.data;
     const remainingMs = (minutes * 60 + seconds) * 1000;
+
+    // 设置目标结束时间戳（基于"绝对时间"做防漂移倒计时）
     this.endTimestamp = Date.now() + remainingMs;
-    
-    // 更新状态为运行中
-    this.setData({
-      isRunning: true
-    });
-    
-    // 启动计时器，每 100ms 更新一次（更平滑）
-    this.timer = setInterval(() => {
-      this.tick();
-    }, 100);
+
+    this.setData({ isRunning: true });
+
+    // 每 100ms 滴答一次（视觉更平滑）
+    this.timer = setInterval(() => this.tick(), 100);
   },
 
   /**
    * 暂停计时
    */
   pauseTimer() {
-    console.log('暂停计时');
-    
-    // 清除计时器
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
     }
-    
-    // 更新状态为停止
-    this.setData({
-      isRunning: false
-    });
+    this.setData({ isRunning: false });
   },
 
   /**
-   * 计时器 tick 函数（每 100ms 执行一次）
+   * 每次 tick：根据 endTimestamp 计算剩余时间
    */
   tick() {
-    // 计算剩余毫秒数
     const remainingMs = this.endTimestamp - Date.now();
-    
+
     if (remainingMs <= 0) {
-      // 倒计时结束
-      this.onTimerComplete();
+      this.onNaturalComplete();
       return;
     }
-    
-    // 计算剩余分钟和秒
+
     const totalSeconds = Math.ceil(remainingMs / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    
-    // 更新数据
     this.setData({
-      minutes,
-      seconds
+      minutes: Math.floor(totalSeconds / 60),
+      seconds: totalSeconds % 60
     });
-    
-    // 更新格式化时间
     this.updateFormattedTime();
   },
 
   /**
-   * 倒计时完成处理
+   * 自然完成（倒计时归零）：写入完整时长记录 → 返回待办页
    */
-  onTimerComplete() {
-    console.log('倒计时完成');
-    
-    // 清除计时器
+  onNaturalComplete() {
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
     }
-    
-    // 从设置读取初始时长
-    const settings = storage.getSettings();
-    // 写入番茄记录到本地存储
-    const record = storage.addRecord(settings.focusDuration);
-    console.log('已记录番茄：', record);
-    
-    // 短震动提示
-    wx.vibrateShort({
-      success: () => {},
-      fail: () => {} // 忽略震动失败
+
+    // 写入记录（关联待办）
+    storage.addRecord(this.todo.duration, {
+      id: this.todo.id,
+      name: this.todo.name
     });
-    
-    // 显示完成提示
+
+    wx.vibrateShort({ success: () => {}, fail: () => {} });
     wx.showToast({
       title: '番茄完成！',
       icon: 'success',
-      duration: 2000
+      duration: 1500
     });
-    
-    // 重置时间到初始状态
-    this.setData({
-      minutes: settings.focusDuration,
-      seconds: 0,
-      isRunning: false,
-      status: '专注时间',
-      currentDuration: settings.focusDuration
-    });
-    
-    // 更新格式化时间
-    this.updateFormattedTime();
-    
-    // 清空结束时间戳
-    this.endTimestamp = null;
+
+    // 1.5 秒后自动返回，让用户看清 toast
+    setTimeout(() => wx.navigateBack(), 1500);
   },
 
   /**
-   * 重置按钮点击事件
-   * 重置计时器到初始状态
+   * 结束按钮：弹 ActionSheet 让用户选"提前完成"还是"放弃"
    */
-  onReset() {
-    console.log('重置计时器');
-    
-    // 清除计时器
+  onEnd() {
+    // 计算实际已经专注的分钟数（向下取整，更"诚实"）
+    const totalSeconds = this.todo.duration * 60;
+    const remainingSeconds = this.data.minutes * 60 + this.data.seconds;
+    const passedSeconds = Math.max(0, totalSeconds - remainingSeconds);
+    const passedMinutes = Math.floor(passedSeconds / 60);
+
+    // 不满 1 分钟：结束等于放弃，弹 modal 二次确认
+    if (passedMinutes === 0) {
+      wx.showModal({
+        title: '确定结束？',
+        content: '还未专注满 1 分钟，结束本次计时将不计入记录。',
+        confirmText: '结束',
+        confirmColor: '#FF4444',
+        success: (res) => {
+          if (res.confirm) this.onGiveUp();
+        }
+      });
+      return;
+    }
+
+    // 满 1 分钟：让用户二选一
+    wx.showActionSheet({
+      itemList: [
+        `提前完成（计入 ${passedMinutes} 分钟）`,
+        '放弃此次计时'
+      ],
+      itemColor: '#333',
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          this.onEarlyComplete(passedMinutes);
+        } else if (res.tapIndex === 1) {
+          this.onGiveUp();
+        }
+      },
+      fail: () => {} // 用户取消 ActionSheet 时不做任何事
+    });
+  },
+
+  /**
+   * 提前完成：写入实际时长的记录 → 返回
+   */
+  onEarlyComplete(passedMinutes) {
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
     }
-    
-    // 从设置读取初始时长
-    const settings = storage.getSettings();
-    
-    // 同步更新本轮时长
-    this.currentDuration = settings.focusDuration;
-    
-    // 重置为初始状态
-    this.setData({
-      minutes: settings.focusDuration,
-      seconds: 0,
-      isRunning: false,
-      status: '专注时间',
-      currentDuration: settings.focusDuration
+
+    storage.addRecord(passedMinutes, {
+      id: this.todo.id,
+      name: this.todo.name
     });
-    
-    // 更新格式化时间
-    this.updateFormattedTime();
-    
-    // 清空结束时间戳
-    this.endTimestamp = null;
+
+    wx.vibrateShort({ success: () => {}, fail: () => {} });
+    wx.showToast({
+      title: `已完成 ${passedMinutes} 分钟`,
+      icon: 'success',
+      duration: 1500
+    });
+    setTimeout(() => wx.navigateBack(), 1500);
+  },
+
+  /**
+   * 放弃：不写入记录 → 返回
+   */
+  onGiveUp() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    wx.showToast({
+      title: '已放弃',
+      icon: 'none',
+      duration: 800
+    });
+    setTimeout(() => wx.navigateBack(), 800);
   }
 });
