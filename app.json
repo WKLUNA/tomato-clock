@@ -4,7 +4,8 @@
     "pages/stats/stats",
     "pages/profile/profile",
     "pages/timer/timer",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/countdowns/countdowns"
   ],
   "window": {
     "backgroundTextStyle": "light",

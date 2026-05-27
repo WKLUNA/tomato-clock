@@ -1,0 +1,78 @@
+<view class="page">
+  <!-- 空状态 -->
+  <view wx:if="{{countdowns.length === 0}}" class="empty">
+    <view class="empty-emoji">📅</view>
+    <view class="empty-title">还没有未来倒计时</view>
+    <view class="empty-sub">点击右下角 + 为重要的日子倒数</view>
+  </view>
+
+  <!-- 列表 -->
+  <view wx:else class="list">
+    <view
+      wx:for="{{countdowns}}"
+      wx:key="id"
+      class="card {{item.dayClass}}"
+      bindlongpress="onLongPressItem"
+      data-id="{{item.id}}"
+    >
+      <view class="card-main">
+        <view class="card-name">{{item.name}}</view>
+        <view wx:if="{{item.note}}" class="card-note">{{item.note}}</view>
+        <view class="card-date">{{item.targetDate}}</view>
+      </view>
+
+      <view class="card-days">
+        <block wx:if="{{item.isToday}}">
+          <view class="day-num-big">就是今天</view>
+        </block>
+        <block wx:else>
+          <view class="day-label">{{item.dayText}}</view>
+          <view class="day-num">{{item.diffDays}}</view>
+          <view class="day-unit">天</view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 悬浮 + 按钮 -->
+  <view class="fab" bindtap="onShowAddDialog">+</view>
+
+  <!-- 添加/编辑弹窗 -->
+  <view wx:if="{{showDialog}}" class="dialog-mask" bindtap="onCloseDialog">
+    <view class="dialog" catchtap="onDialogTap">
+      <view class="dialog-title">{{editingId ? '编辑倒计时' : '添加倒计时'}}</view>
+
+      <input
+        class="dialog-input"
+        placeholder="名称（如 考试 / 生日）"
+        value="{{form.name}}"
+        bindinput="onInputName"
+        maxlength="20"
+      />
+
+      <input
+        class="dialog-input"
+        placeholder="备注（可选）"
+        value="{{form.note}}"
+        bindinput="onInputNote"
+        maxlength="40"
+      />
+
+      <picker
+        mode="date"
+        value="{{form.targetDate}}"
+        bindchange="onSelectDate"
+      >
+        <view class="dialog-date">
+          <text class="dialog-date-label">目标日期</text>
+          <text class="dialog-date-value">{{form.targetDate || '点击选择'}}</text>
+        </view>
+      </picker>
+
+      <view class="dialog-actions">
+        <view class="dialog-btn dialog-cancel" bindtap="onCloseDialog">取消</view>
+        <view class="dialog-btn dialog-confirm" bindtap="onConfirmDialog">确定</view>
+      </view>
+    </view>
+  </view>
+</view>
