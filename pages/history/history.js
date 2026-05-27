@@ -47,7 +47,7 @@ Page({
    */
   onDeleteRecord(e) {
     // 从 dataset 中获取记录 ID（注意转换为数字）
-    const id = parseInt(e.currentTarget.dataset.id);
+    const id = parseInt(e.currentTarget.dataset.id, 10);
     
     // 弹出确认对话框
     wx.showModal({
