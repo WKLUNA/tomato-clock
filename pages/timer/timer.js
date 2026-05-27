@@ -51,9 +51,6 @@ Page({
       isRunning: false
     });
     this.updateFormattedTime();
-
-    // 导航栏标题用待办名（比"番茄钟"信息量大）
-    wx.setNavigationBarTitle({ title: todo.name });
   },
 
   /**
@@ -187,7 +184,7 @@ Page({
     // 满 1 分钟：让用户二选一
     wx.showActionSheet({
       itemList: [
-        `提前完成（计入 ${passedMinutes} 分钟）`,
+        `提前完成`,
         '放弃此次计时'
       ],
       itemColor: '#333',
@@ -218,7 +215,7 @@ Page({
 
     wx.vibrateShort({ success: () => {}, fail: () => {} });
     wx.showToast({
-      title: `已完成 ${passedMinutes} 分钟`,
+      title: `番茄完成！`,
       icon: 'success',
       duration: 1500
     });
