@@ -11,7 +11,7 @@ Page({
     totalCount: 0,
     totalMinutes: 0,
     version: '1.0.0',
-    author: '你的姓名'   // ⚠️ 提交前自己改成真实姓名
+    author: '金凡皙'   // 
   },
 
   /**
@@ -44,7 +44,6 @@ Page({
 
   /**
    * 跳转到未来倒计时页
-   * P3.1 阶段该页面还未建立，会失败并 toast 提示；P3.3 阶段建好后自动生效
    */
   goToCountdowns() {
     wx.navigateTo({
