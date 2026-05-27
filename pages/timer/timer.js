@@ -27,7 +27,7 @@ Page({
   /**
    * 本轮计时使用的时长（分钟数），用于检测设置是否变化
    */
-  currentDuration: 5,
+  currentDuration: null,
 
   /**
    * 生命周期函数--监听页面显示
