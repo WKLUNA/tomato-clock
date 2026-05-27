@@ -1,0 +1,90 @@
+/* 页面整体样式 */
+page {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+}
+
+/* 容器 */
+.container {
+  min-height: 100vh;
+}
+
+/* 记录列表 */
+.record-list {
+  padding: 20rpx;
+}
+
+/* 列表项 */
+.record-item {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+}
+
+/* 记录信息（番茄图标 + 时长） */
+.record-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* 番茄图标 */
+.tomato-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+
+/* 时长 */
+.duration {
+  font-size: 32rpx;
+  color: #333333;
+}
+
+/* 时间 */
+.record-time {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+/* 删除按钮 */
+.delete-btn {
+  flex: 0 0 auto;
+  padding: 16rpx;
+  font-size: 30rpx;
+  color: #CCCCCC;
+}
+
+.delete-btn:active {
+  color: #FF6B6B;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200rpx;
+}
+
+/* 空状态图标 */
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+/* 空状态标题 */
+.empty-title {
+  font-size: 32rpx;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+/* 空状态描述 */
+.empty-desc {
+  font-size: 26rpx;
+  color: #999999;
+}

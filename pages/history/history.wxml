@@ -1,1 +1,36 @@
-<view>timer page</view>
+<!-- 页面容器 -->
+<view class="container">
+  <!-- 有记录时显示列表 -->
+  <view wx:if="{{ records.length > 0 }}" class="record-list">
+    <view 
+      wx:for="{{ records }}" 
+      wx:key="id" 
+      class="record-item"
+    >
+      <!-- 左侧：番茄图标 + 时长 -->
+      <view class="record-info">
+        <text class="tomato-icon">🍅</text>
+        <text class="duration">{{ item.duration }} 分钟</text>
+      </view>
+      
+      <!-- 中间：时间 -->
+      <view class="record-time">{{ item.displayTime }}</view>
+      
+      <!-- 右侧：删除按钮 -->
+      <view 
+        class="delete-btn" 
+        bindtap="onDeleteRecord" 
+        data-id="{{ item.id }}"
+      >
+        <text>×</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view wx:else class="empty-state">
+    <text class="empty-icon">🍅</text>
+    <text class="empty-title">还没有番茄记录</text>
+    <text class="empty-desc">完成第一个番茄就显示在这里</text>
+  </view>
+</view>
