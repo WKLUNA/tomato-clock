@@ -1,104 +1,151 @@
-/* 页面整体样式 */
 page {
-  background-color: #F5F5F5;
+  background: #F5F5F5;
   min-height: 100vh;
 }
 
-/* 容器 */
-.container {
-  padding: 30rpx;
+.page {
+  padding: 24rpx;
+  padding-bottom: 60rpx;
+  box-sizing: border-box;
 }
 
-/* 顶部 header */
-.header {
+/* ===== 顶部用户卡片 ===== */
+.user-card {
+  background: linear-gradient(135deg, #FF8E8E, #FF6B6B);
+  border-radius: 24rpx;
+  padding: 50rpx 30rpx 40rpx;
+  margin-bottom: 24rpx;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 107, 0.25);
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  margin: 0 auto 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80rpx;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+}
+
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.user-stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60rpx 0;
 }
 
-.header-emoji {
-  font-size: 80rpx;
-  margin-bottom: 16rpx;
+.user-stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
 }
 
-.header-slogan {
-  font-size: 32rpx;
-  color: #333333;
+.user-stat-label {
+  font-size: 22rpx;
+  opacity: 0.85;
+  margin-top: 4rpx;
 }
 
-/* 卡片通用样式 */
+/* ===== 通用卡片容器 ===== */
 .card {
-  background-color: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin-bottom: 24rpx;
-}
-
-/* 卡片标题 */
-.card-title {
-  font-size: 28rpx;
-  color: #666666;
+  background: #fff;
+  border-radius: 20rpx;
   margin-bottom: 20rpx;
+  overflow: hidden;
 }
 
-/* 时长选项容器 */
-.duration-options {
+/* ===== 菜单项 ===== */
+.menu-item {
   display: flex;
-  gap: 16rpx;
+  align-items: center;
+  padding: 28rpx 30rpx;
+  border-bottom: 1rpx solid #F0F0F0;
 }
 
-/* 单个时长选项 */
-.duration-option {
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  width: 64rpx;
+  height: 64rpx;
+  background: #FFF0F0;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.menu-item.danger .menu-icon {
+  background: #FFE5E5;
+}
+
+.menu-text {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16rpx 0;
-  border: 2rpx solid #DDDDDD;
-  border-radius: 12rpx;
+  min-width: 0;
 }
 
-.duration-option text {
-  font-size: 28rpx;
-  color: #666666;
+.menu-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
 }
 
-/* 选中状态 */
-.duration-option.active {
-  background-color: #FF6B6B;
-  border: none;
-}
-
-.duration-option.active text {
-  color: #FFFFFF;
-}
-
-/* 清空按钮 */
-.clear-btn {
-  width: 100%;
-  height: 80rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #FFFFFF;
-  border: 2rpx solid #FFE0E0;
-  border-radius: 12rpx;
-}
-
-.clear-btn text {
-  font-size: 28rpx;
+.menu-item.danger .menu-title {
   color: #FF4444;
 }
 
-/* 关于项 */
+.menu-sub {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.menu-arrow {
+  font-size: 36rpx;
+  color: #CCC;
+  margin-left: 12rpx;
+  font-family: monospace;
+}
+
+/* ===== 关于卡片 ===== */
+.about-card {
+  padding: 0 30rpx;
+}
+
 .about-item {
   display: flex;
   justify-content: space-between;
-  padding: 12rpx 0;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F0F0F0;
 }
 
-.about-item text {
-  font-size: 26rpx;
-  color: #999999;
+.about-item:last-child {
+  border-bottom: none;
+}
+
+.about-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.about-value {
+  font-size: 28rpx;
+  color: #999;
 }

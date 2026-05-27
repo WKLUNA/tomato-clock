@@ -1,44 +1,66 @@
-<!-- 页面容器 -->
-<view class="container">
-  <!-- 顶部 header -->
-  <view class="header">
-    <text class="header-emoji">🍅</text>
-    <text class="header-slogan">专注每一刻</text>
-  </view>
-
-  <!-- 专注时长设置区块 -->
-  <view class="card">
-    <view class="card-title">专注时长</view>
-    <view class="duration-options">
-      <view 
-        wx:for="{{durationOptions}}"
-        wx:key="*this"
-        class="duration-option {{item == focusDuration ? 'active' : ''}}"
-        bindtap="onSelectDuration"
-        data-value="{{item}}"
-      >
-        <text>{{item}}分钟</text>
+<view class="page">
+  <!-- 顶部用户卡片 -->
+  <view class="user-card">
+    <view class="avatar">🍅</view>
+    <view class="user-name">专注小将</view>
+    <view class="user-stats">
+      <view class="user-stat">
+        <text class="user-stat-num">{{ todayCount }}</text>
+        <text class="user-stat-label">今日番茄</text>
+      </view>
+      <view class="user-stat">
+        <text class="user-stat-num">{{ totalCount }}</text>
+        <text class="user-stat-label">累计番茄</text>
+      </view>
+      <view class="user-stat">
+        <text class="user-stat-num">{{ totalMinutes }}</text>
+        <text class="user-stat-label">累计分钟</text>
       </view>
     </view>
   </view>
 
-  <!-- 数据管理区块 -->
-  <view class="card">
-    <view class="clear-btn" bindtap="onClearRecords">
-      <text>清空所有记录</text>
+  <!-- 功能入口 -->
+  <view class="card menu-card">
+    <view class="menu-item" bindtap="goToHistory">
+      <view class="menu-icon">📋</view>
+      <view class="menu-text">
+        <view class="menu-title">历史记录</view>
+        <view class="menu-sub">查看每天的专注完成情况</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item" bindtap="goToCountdowns">
+      <view class="menu-icon">📅</view>
+      <view class="menu-text">
+        <view class="menu-title">未来倒计时</view>
+        <view class="menu-sub">为重要的日子倒数</view>
+      </view>
+      <view class="menu-arrow">›</view>
     </view>
   </view>
 
-  <!-- 关于区块 -->
-  <view class="card">
-    <view class="card-title">关于</view>
+  <!-- 数据管理 -->
+  <view class="card menu-card">
+    <view class="menu-item danger" bindtap="onClearRecords">
+      <view class="menu-icon">🗑</view>
+      <view class="menu-text">
+        <view class="menu-title">清空所有记录</view>
+        <view class="menu-sub">仅清空专注记录，不影响待办本身</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="card about-card">
     <view class="about-item">
-      <text>版本</text>
-      <text>{{version}}</text>
+      <text class="about-label">版本</text>
+      <text class="about-value">{{ version }}</text>
     </view>
     <view class="about-item">
-      <text>开发者</text>
-      <text>{{author}}</text>
+      <text class="about-label">开发者</text>
+      <text class="about-value">{{ author }}</text>
     </view>
   </view>
 </view>

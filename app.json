@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/todos/todos",
-    "pages/history/history",
     "pages/stats/stats",
     "pages/profile/profile",
-    "pages/timer/timer"
+    "pages/timer/timer",
+    "pages/history/history"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -22,10 +22,6 @@
       {
         "pagePath": "pages/todos/todos",
         "text": "🍅 待办"
-      },
-      {
-        "pagePath": "pages/history/history",
-        "text": "📋 历史"
       },
       {
         "pagePath": "pages/stats/stats",
