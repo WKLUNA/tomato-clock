@@ -1,36 +1,58 @@
-<!-- 页面容器 -->
-<view class="container">
-  <!-- 有记录时显示列表 -->
-  <view wx:if="{{ records.length > 0 }}" class="record-list">
-    <view 
-      wx:for="{{ records }}" 
-      wx:key="id" 
-      class="record-item"
+<view class="page">
+  <!-- 顶部日期切换器 -->
+  <view class="date-selector">
+    <view class="date-arrow" bindtap="prevDay">‹</view>
+
+    <picker
+      mode="date"
+      value="{{selectedDate}}"
+      end="{{todayDate}}"
+      bindchange="onDateChange"
     >
-      <!-- 左侧：番茄图标 + 时长 -->
-      <view class="record-info">
-        <text class="tomato-icon">🍅</text>
-        <text class="duration">{{ item.duration }} 分钟</text>
+      <view class="date-display">
+        <view class="date-main">{{displayDate}}</view>
+        <view class="date-hint">点击切换日期</view>
       </view>
-      
-      <!-- 中间：时间 -->
-      <view class="record-time">{{ item.displayTime }}</view>
-      
-      <!-- 右侧：删除按钮 -->
-      <view 
-        class="delete-btn" 
-        bindtap="onDeleteRecord" 
-        data-id="{{ item.id }}"
+    </picker>
+
+    <view class="date-arrow {{isToday ? 'disabled' : ''}}" bindtap="nextDay">›</view>
+  </view>
+
+  <!-- 有记录时：概要 + 列表 -->
+  <block wx:if="{{records.length > 0}}">
+    <!-- 当天概要 -->
+    <view class="summary-card">
+      <text class="summary-text">完成 {{summary.count}} 个番茄 · 专注 {{summary.minutes}} 分钟</text>
+    </view>
+
+    <!-- 当天记录列表 -->
+    <view class="record-list">
+      <view
+        wx:for="{{records}}"
+        wx:key="id"
+        class="record-card"
       >
-        <text>×</text>
+        <view class="record-emoji">🍅</view>
+        <view class="record-info">
+          <view class="record-name">{{item.todoName}}</view>
+          <view class="record-meta">
+            <text class="record-time">{{item.timeText}}</text>
+            <text class="record-duration">{{item.duration}} 分钟</text>
+          </view>
+        </view>
+        <view
+          class="record-delete"
+          catchtap="onDeleteRecord"
+          data-id="{{item.id}}"
+        >×</view>
       </view>
     </view>
-  </view>
-  
+  </block>
+
   <!-- 空状态 -->
-  <view wx:else class="empty-state">
-    <text class="empty-icon">🍅</text>
-    <text class="empty-title">还没有番茄记录</text>
-    <text class="empty-desc">完成第一个番茄就显示在这里</text>
+  <view wx:else class="empty">
+    <view class="empty-emoji">📭</view>
+    <view class="empty-title">这一天还没专注记录</view>
+    <view wx:if="{{!isToday}}" class="empty-action" bindtap="goToday">回到今天</view>
   </view>
 </view>

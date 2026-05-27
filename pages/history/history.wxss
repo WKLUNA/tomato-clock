@@ -1,92 +1,169 @@
-/* 页面整体样式 */
 page {
-  background-color: #F5F5F5;
+  background: #F5F5F5;
   min-height: 100vh;
 }
 
-/* 容器 */
-.container {
-  min-height: 100vh;
-}
-
-/* 记录列表 */
-.record-list {
-  padding: 0;
-}
-
-/* 列表项 */
-.record-item {
-  width: 100%;
+.page {
+  padding: 24rpx;
+  padding-bottom: 60rpx;
   box-sizing: border-box;
+}
+
+/* ===== 日期切换器 ===== */
+.date-selector {
+  background: #fff;
+  border-radius: 20rpx;
+  margin-bottom: 24rpx;
+  padding: 24rpx 30rpx;
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #EEEEEE;
+  justify-content: space-between;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
 }
 
-/* 记录信息（番茄图标 + 时长） */
+.date-arrow {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: #F5F5F5;
+  color: #666;
+  font-size: 40rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-family: monospace;
+  flex-shrink: 0;
+}
+
+.date-arrow.disabled {
+  color: #DDD;
+  background: #FAFAFA;
+}
+
+.date-display {
+  text-align: center;
+  padding: 0 20rpx;
+}
+
+.date-main {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.date-hint {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* ===== 概要卡片 ===== */
+.summary-card {
+  background: #FFF5F5;
+  border-radius: 16rpx;
+  padding: 22rpx 30rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.summary-text {
+  font-size: 26rpx;
+  color: #FF6B6B;
+  font-weight: 500;
+}
+
+/* ===== 记录列表 ===== */
+.record-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 30rpx;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.record-emoji {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: #FFF0F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
 .record-info {
   flex: 1;
-  display: flex;
-  align-items: center;
+  min-width: 0;
 }
 
-/* 番茄图标 */
-.tomato-icon {
-  font-size: 32rpx;
-  margin-right: 16rpx;
-}
-
-/* 时长 */
-.duration {
-  font-size: 32rpx;
-  color: #333333;
-}
-
-/* 时间 */
-.record-time {
-  flex: 1;
-  text-align: center;
-  font-size: 26rpx;
-  color: #999999;
-}
-
-/* 删除按钮 */
-.delete-btn {
-  flex: 0 0 auto;
-  padding: 16rpx;
+.record-name {
   font-size: 30rpx;
-  color: #CCCCCC;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.delete-btn:active {
-  color: #FF6B6B;
-}
-
-/* 空状态 */
-.empty-state {
+.record-meta {
   display: flex;
-  flex-direction: column;
+  gap: 16rpx;
   align-items: center;
-  padding-top: 200rpx;
 }
 
-/* 空状态图标 */
-.empty-icon {
-  font-size: 120rpx;
+.record-time {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.record-duration {
+  font-size: 22rpx;
+  color: #FF6B6B;
+  background: #FFE5E5;
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.record-delete {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #FAFAFA;
+  color: #CCC;
+  font-size: 32rpx;
+  line-height: 50rpx;
+  text-align: center;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+/* ===== 空状态 ===== */
+.empty {
+  padding-top: 200rpx;
+  text-align: center;
+}
+
+.empty-emoji {
+  font-size: 100rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-title {
+  font-size: 30rpx;
+  color: #666;
   margin-bottom: 32rpx;
 }
 
-/* 空状态标题 */
-.empty-title {
-  font-size: 32rpx;
-  color: #333333;
-  margin-bottom: 16rpx;
-}
-
-/* 空状态描述 */
-.empty-desc {
+.empty-action {
+  display: inline-block;
+  background: #FF6B6B;
+  color: #fff;
+  padding: 16rpx 50rpx;
+  border-radius: 32rpx;
   font-size: 26rpx;
-  color: #999999;
 }
