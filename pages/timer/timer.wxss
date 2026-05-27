@@ -1,0 +1,97 @@
+/* 页面整体样式 */
+page {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+}
+
+/* 容器，使用 flex 布局实现垂直居中 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 顶部留白区域 */
+.top-space {
+  height: 120rpx;
+}
+
+/* 圆环容器 */
+.circle-wrapper {
+  margin-bottom: 48rpx;
+}
+
+/* 计时器圆环 */
+.timer-circle {
+  width: 500rpx;
+  height: 500rpx;
+  border: 20rpx solid #FF6B6B;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 时间显示样式 */
+.time-display {
+  font-size: 120rpx;
+  font-weight: 700;
+  color: #2D3748;
+}
+
+/* 状态文字样式 */
+.status-text {
+  font-size: 32rpx;
+  color: #999999;
+  margin-bottom: 80rpx;
+}
+
+/* 按钮容器，横向排列 */
+.btn-container {
+  display: flex;
+  gap: 40rpx;
+}
+
+/* 按钮基础样式 */
+.btn {
+  width: 200rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* 清除 button 默认样式 */
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+.btn::after {
+  border: none;
+}
+
+/* 主按钮样式（开始/暂停） */
+.btn-primary {
+  background-color: #FF6B6B;
+}
+
+.btn-primary text {
+  color: #FFFFFF;
+  font-size: 32rpx;
+}
+
+/* 次按钮样式（重置） */
+.btn-secondary {
+  background-color: #FFFFFF;
+  border: 2rpx solid #DDDDDD;
+}
+
+.btn-secondary text {
+  color: #666666;
+  font-size: 32rpx;
+}

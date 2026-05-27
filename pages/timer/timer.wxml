@@ -1,1 +1,31 @@
-<view>timer page</view>
+<!-- 页面容器，使用 flex 布局实现居中 -->
+<view class="container">
+  <!-- 顶部留白区域 -->
+  <view class="top-space"></view>
+  
+  <!-- 圆环容器 -->
+  <view class="circle-wrapper">
+    <!-- 红色圆环 -->
+    <view class="timer-circle">
+      <!-- 时间显示 -->
+      <view class="time-display">{{ formattedTime }}</view>
+    </view>
+  </view>
+  
+  <!-- 状态文字 -->
+  <view class="status-text">{{ status }}</view>
+  
+  <!-- 按钮区域 -->
+  <view class="btn-container">
+    <!-- 开始/暂停按钮 -->
+    <view class="btn btn-primary" bindtap="onToggleTimer">
+      <text wx:if="{{ !isRunning }}">开始</text>
+      <text wx:else>暂停</text>
+    </view>
+    
+    <!-- 重置按钮 -->
+    <view class="btn btn-secondary" bindtap="onReset">
+      <text>重置</text>
+    </view>
+  </view>
+</view>

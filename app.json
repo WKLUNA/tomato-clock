@@ -13,29 +13,29 @@
     "backgroundColor": "#F5F5F5"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#FF6B6B",
-    "backgroundColor": "#FFFFFF",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/timer/timer",
-        "text": "计时"
-      },
-      {
-        "pagePath": "pages/history/history",
-        "text": "历史"
-      },
-      {
-        "pagePath": "pages/stats/stats",
-        "text": "统计"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "text": "我的"
-      }
-    ]
-  },
+  "color": "#999999",
+  "selectedColor": "#FF6B6B",
+  "backgroundColor": "#FFFFFF",
+  "borderStyle": "black",
+  "list": [
+    {
+      "pagePath": "pages/timer/timer",
+      "text": "🍅 计时"
+    },
+    {
+      "pagePath": "pages/history/history",
+      "text": "📋 历史"
+    },
+    {
+      "pagePath": "pages/stats/stats",
+      "text": "📊 统计"
+    },
+    {
+      "pagePath": "pages/profile/profile",
+      "text": "👤 我的"
+    }
+  ]
+},
   "style": "v2",
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
