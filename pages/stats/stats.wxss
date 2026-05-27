@@ -9,14 +9,12 @@ page {
   padding: 20rpx;
 }
 
-/* 统计卡片组 */
+/* ===== 顶部 3 张统计卡片 ===== */
 .stats-cards {
   display: flex;
   width: 100%;
   gap: 16rpx;
 }
-
-/* 单个统计卡片 */
 .stat-card {
   flex: 1;
   box-sizing: border-box;
@@ -27,27 +25,21 @@ page {
   flex-direction: column;
   align-items: center;
 }
-
-/* 今日卡片高亮 */
 .today-card {
   background-color: #FFF5F5;
 }
-
-/* 统计数字 */
 .stat-number {
   font-size: 56rpx;
   font-weight: 700;
   color: #FF6B6B;
 }
-
-/* 统计标签 */
 .stat-label {
   font-size: 24rpx;
   color: #999999;
   margin-top: 8rpx;
 }
 
-/* 累计时长卡片 */
+/* ===== 累计专注时长卡片 ===== */
 .total-minutes-card {
   width: 100%;
   box-sizing: border-box;
@@ -57,14 +49,10 @@ page {
   padding: 40rpx;
   text-align: center;
 }
-
-/* 累计时长主文字 */
 .total-minutes-main {
   font-size: 32rpx;
   color: #333333;
 }
-
-/* 累计时长小时数 */
 .total-minutes-hours {
   display: block;
   font-size: 26rpx;
@@ -72,7 +60,7 @@ page {
   margin-top: 12rpx;
 }
 
-/* 柱状图卡片 */
+/* ===== 图表卡片（饼图 + 柱状图共用）===== */
 .chart-card {
   width: 100%;
   box-sizing: border-box;
@@ -81,50 +69,114 @@ page {
   border-radius: 16rpx;
   padding: 30rpx;
 }
-
-/* 图表标题 */
 .chart-title {
   font-size: 28rpx;
   color: #333333;
   margin-bottom: 30rpx;
+  display: block;
 }
 
-/* 柱状图容器 */
+/* ===== 饼图 ===== */
+.pie-wrap {
+  position: relative;
+  width: 320rpx;
+  height: 320rpx;
+  margin: 20rpx auto 30rpx;
+}
+.pie {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+/* 甜甜圈中间的白色圆 */
+.pie-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pie-inner-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #FF6B6B;
+}
+.pie-inner-label {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* ===== 图例 ===== */
+.legend {
+  margin-top: 20rpx;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+.legend-item:last-child {
+  border-bottom: none;
+}
+.legend-color {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 6rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.legend-name {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.legend-stats {
+  font-size: 24rpx;
+  color: #999;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+/* ===== 7 天柱状图 ===== */
 .chart-bars {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   height: 280rpx;
 }
-
-/* 单个柱子项 */
 .bar-item {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-/* 柱子上方数字 */
 .bar-count {
   font-size: 24rpx;
   color: #666666;
   margin-bottom: 8rpx;
 }
-
-/* 柱子 */
 .bar {
   width: 40rpx;
+  min-height: 4rpx;        /* 即使 count=0 也有一条小色带，视觉上不会"消失" */
   border-radius: 8rpx 8rpx 0 0;
   background-color: #FFB8B8;
+  transition: height 0.3s ease;
 }
-
-/* 今天的柱子高亮 */
 .bar-today {
   background-color: #FF6B6B;
 }
-
-/* 柱子下方日期 */
 .bar-date {
   font-size: 22rpx;
   color: #999999;

@@ -2,46 +2,64 @@
 <view class="container">
   <!-- 顶部三张统计卡片 -->
   <view class="stats-cards">
-    <!-- 今日卡片 -->
     <view class="stat-card today-card">
       <text class="stat-number">{{ todayCount }}</text>
       <text class="stat-label">今日番茄</text>
     </view>
-    
-    <!-- 本周卡片 -->
     <view class="stat-card">
       <text class="stat-number">{{ weekCount }}</text>
       <text class="stat-label">本周番茄</text>
     </view>
-    
-    <!-- 总计卡片 -->
     <view class="stat-card">
       <text class="stat-number">{{ totalCount }}</text>
       <text class="stat-label">总计番茄</text>
     </view>
   </view>
-  
+
   <!-- 累计专注时长卡片 -->
   <view class="total-minutes-card">
     <text class="total-minutes-main">累计专注 {{ totalMinutes }} 分钟</text>
-    <text wx:if="{{ totalMinutes >= 60 }}" > 约 {{totalHours}} 小时
-    </text>
+    <text wx:if="{{ totalMinutes >= 60 }}" class="total-minutes-hours">（约 {{ totalHours }} 小时）</text>
   </view>
-  
-  <!-- 最近7天柱状图 -->
+
+  <!-- 时间分布饼图（按待办分组）-->
+  <view wx:if="{{ timeByTodo.length > 0 }}" class="chart-card">
+    <text class="chart-title">时间分布</text>
+
+    <view class="pie-wrap">
+      <view class="pie" style="background: {{ pieGradient }};"></view>
+      <view class="pie-inner">
+        <text class="pie-inner-num">{{ totalCount }}</text>
+        <text class="pie-inner-label">个番茄</text>
+      </view>
+    </view>
+
+    <view class="legend">
+      <view
+        wx:for="{{ timeByTodo }}"
+        wx:key="todoId"
+        class="legend-item"
+      >
+        <view class="legend-color" style="background: {{ item.color }};"></view>
+        <text class="legend-name">{{ item.todoName }}</text>
+        <text class="legend-stats">{{ item.minutes }} 分钟 · {{ item.percentage }}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近 7 天柱状图 -->
   <view class="chart-card">
-    <text class="chart-title">最近7天</text>
+    <text class="chart-title">最近 7 天</text>
     <view class="chart-bars">
-      <view 
-        wx:for="{{ last7Days }}" 
-        wx:key="date" 
+      <view
+        wx:for="{{ last7Days }}"
+        wx:key="date"
         class="bar-item"
       >
         <text class="bar-count">{{ item.count }}</text>
-        <view 
-          class="bar" 
+        <view
+          class="bar {{ item.isToday ? 'bar-today' : '' }}"
           style="height: {{ (item.count / last7DaysMax) * 200 }}rpx;"
-          :class="{ 'bar-today': item.isToday }"
         ></view>
         <text class="bar-date">{{ item.date }}</text>
       </view>

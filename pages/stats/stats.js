@@ -8,20 +8,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    todayCount: 0,      // 今日番茄数
-    weekCount: 0,       // 本周番茄数
-    totalCount: 0,      // 总番茄数
-    totalMinutes: 0,    // 累计专注分钟
-    totalHours: 0,      // 累计专注小时
-    last7Days: [],      // 最近7天数据
-    last7DaysMax: 1     // 最近7天最大数量（用于柱状图归一化）
+    todayCount: 0,
+    weekCount: 0,
+    totalCount: 0,
+    totalMinutes: 0,
+    totalHours: 0,
+    last7Days: [],
+    last7DaysMax: 1,
+    timeByTodo: [],        // 按待办分组的时长分布
+    pieGradient: ''        // 饼图的 conic-gradient CSS 字符串
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    // 页面显示时加载统计数据
     this.loadStats();
   },
 
@@ -29,21 +30,30 @@ Page({
    * 加载统计数据
    */
   loadStats() {
-    // 从本地存储获取所有记录
     const records = storage.getRecords();
-    
-    // 计算各项统计数据
+
+    // 原有统计
     const todayCount = statsUtil.getTodayCount(records);
     const weekCount = statsUtil.getThisWeekCount(records);
     const totalCount = statsUtil.getTotalCount(records);
     const totalMinutes = statsUtil.getTotalMinutes(records);
     const totalHours = Math.floor(totalMinutes / 60);
     const last7Days = statsUtil.getLast7DaysData(records);
-    
-    // 计算最近7天的最大数量（用于柱状图高度归一化）
     const last7DaysMax = Math.max(...last7Days.map(item => item.count), 1);
-    
-    // 更新页面数据
+
+    // 新增：按待办分组的时长分布
+    const timeByTodo = statsUtil.getTimeByTodo(records);
+
+    // 构造 conic-gradient CSS 字符串（饼图）
+    // 形如：conic-gradient(from -90deg, #FF6B6B 0deg 120deg, #4ECDC4 120deg 360deg)
+    let pieGradient = '';
+    if (timeByTodo.length > 0) {
+      const stops = timeByTodo.map(t =>
+        `${t.color} ${t.startAngle}deg ${t.endAngle}deg`
+      ).join(', ');
+      pieGradient = `conic-gradient(from -90deg, ${stops})`;
+    }
+
     this.setData({
       todayCount,
       weekCount,
@@ -51,7 +61,9 @@ Page({
       totalMinutes,
       totalHours,
       last7Days,
-      last7DaysMax
+      last7DaysMax,
+      timeByTodo,
+      pieGradient
     });
   }
 });
