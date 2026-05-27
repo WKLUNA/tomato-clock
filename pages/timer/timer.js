@@ -24,10 +24,56 @@ Page({
   endTimestamp: null,
 
   /**
-   * 生命周期函数--监听页面加载
+   * 本轮计时使用的时长（分钟数），用于检测设置是否变化
    */
-  onLoad(options) {
-    // 页面加载时初始化格式化时间
+  currentDuration: null,
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    const settings = storage.getSettings();
+    const newDuration = settings.focusDuration;
+    
+    // 场景1：设置的时长变了 → 强制重置到新时长的初始态（放弃当前轮）
+    if (this.currentDuration !== null && this.currentDuration !== newDuration) {
+      console.log('检测到设置变更，重置到新时长');
+      // 停止计时
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+      this.endTimestamp = null;
+      this.currentDuration = newDuration;
+      this.setData({
+        minutes: newDuration,
+        seconds: 0,
+        isRunning: false
+      });
+      this.updateFormattedTime();
+      return;
+    }
+    
+    // 场景2：正在运行中（有 timer 且有 endTimestamp）→ 立刻刷新一次显示，不打断计时
+    if (this.timer && this.endTimestamp) {
+      console.log('计时器正在运行，刷新显示');
+      this.tick();
+      return;
+    }
+    
+    // 场景3：暂停中（没有 timer 但有 endTimestamp）→ 保持暂停状态，不做任何操作
+    if (!this.timer && this.endTimestamp) {
+      console.log('计时器已暂停，保持状态');
+      return;
+    }
+    
+    // 场景4：完全空闲 → 初始化显示设置的时长
+    console.log('完全空闲，初始化显示');
+    this.currentDuration = newDuration;
+    this.setData({
+      minutes: newDuration,
+      seconds: 0
+    });
     this.updateFormattedTime();
   },
 
@@ -35,26 +81,9 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    // 如果计时器正在运行，先记录当前剩余时间并清除计时器
-    if (this.data.isRunning && this.timer) {
-      // 计算当前剩余毫秒数
-      const remainingMs = this.endTimestamp - Date.now();
-      if (remainingMs > 0) {
-        // 转换为分钟和秒
-        const totalSeconds = Math.ceil(remainingMs / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        this.setData({
-          minutes,
-          seconds
-        });
-        this.updateFormattedTime();
-      }
-      // 清除计时器
-      clearInterval(this.timer);
-      this.timer = null;
-      this.endTimestamp = null;
-    }
+    // 不清除 timer，让它继续运行
+    // 页面隐藏时 setInterval 仍会触发，显示更新靠 onShow 时手动同步
+    console.log('页面隐藏，计时器继续运行');
   },
 
   /**
@@ -104,6 +133,10 @@ Page({
    */
   startTimer() {
     console.log('开始计时');
+    
+    // 记录本轮使用的时长（首次启动时记下来）
+    const settings = storage.getSettings();
+    this.currentDuration = settings.focusDuration;
     
     // 计算目标结束时间戳：当前时间 + 剩余时间（毫秒）
     const { minutes, seconds } = this.data;
@@ -179,8 +212,10 @@ Page({
       this.timer = null;
     }
     
-    // 写入番茄记录到本地存储（暂时硬编码 25 分钟）
-    const record = storage.addRecord(25);
+    // 从设置读取初始时长
+    const settings = storage.getSettings();
+    // 写入番茄记录到本地存储
+    const record = storage.addRecord(settings.focusDuration);
     console.log('已记录番茄：', record);
     
     // 短震动提示
@@ -198,7 +233,7 @@ Page({
     
     // 重置时间到初始状态
     this.setData({
-      minutes: 25,
+      minutes: settings.focusDuration,
       seconds: 0,
       isRunning: false,
       status: '专注时间'
@@ -224,9 +259,15 @@ Page({
       this.timer = null;
     }
     
+    // 从设置读取初始时长
+    const settings = storage.getSettings();
+    
+    // 同步更新本轮时长
+    this.currentDuration = settings.focusDuration;
+    
     // 重置为初始状态
     this.setData({
-      minutes: 25,
+      minutes: settings.focusDuration,
       seconds: 0,
       isRunning: false,
       status: '专注时间'

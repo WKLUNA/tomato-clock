@@ -4,6 +4,8 @@
  */
 
 const STORAGE_KEY = 'tomatoRecords';  // 存储 key
+const SETTINGS_KEY = 'settings';  // 设置存储 key
+const DEFAULT_SETTINGS = { focusDuration: 25 };  // 默认设置
 
 /**
  * 获取所有番茄记录
@@ -73,10 +75,36 @@ function clearAllRecords() {
   wx.setStorageSync(STORAGE_KEY, []);
 }
 
+/**
+ * 获取设置
+ * @returns {Object} 设置对象，包含 focusDuration 字段
+ */
+function getSettings() {
+  const data = wx.getStorageSync(SETTINGS_KEY);
+  if (!data) {
+    return DEFAULT_SETTINGS;
+  }
+  return data;
+}
+
+/**
+ * 更新设置
+ * @param {Object} patch - 要更新的字段对象
+ * @returns {Object} 合并后的完整设置对象
+ */
+function updateSettings(patch) {
+  const currentSettings = getSettings();
+  const newSettings = { ...currentSettings, ...patch };
+  wx.setStorageSync(SETTINGS_KEY, newSettings);
+  return newSettings;
+}
+
 // CommonJS 导出
 module.exports = {
   getRecords,
   addRecord,
   deleteRecord,
-  clearAllRecords
+  clearAllRecords,
+  getSettings,
+  updateSettings
 };

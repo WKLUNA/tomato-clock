@@ -1,1 +1,44 @@
-<view>timer page</view>
+<!-- 页面容器 -->
+<view class="container">
+  <!-- 顶部 header -->
+  <view class="header">
+    <text class="header-emoji">🍅</text>
+    <text class="header-slogan">专注每一刻</text>
+  </view>
+
+  <!-- 专注时长设置区块 -->
+  <view class="card">
+    <view class="card-title">专注时长</view>
+    <view class="duration-options">
+      <view 
+        wx:for="{{durationOptions}}"
+        wx:key="*this"
+        class="duration-option {{item == focusDuration ? 'active' : ''}}"
+        bindtap="onSelectDuration"
+        data-value="{{item}}"
+      >
+        <text>{{item}}分钟</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据管理区块 -->
+  <view class="card">
+    <view class="clear-btn" bindtap="onClearRecords">
+      <text>清空所有记录</text>
+    </view>
+  </view>
+
+  <!-- 关于区块 -->
+  <view class="card">
+    <view class="card-title">关于</view>
+    <view class="about-item">
+      <text>版本</text>
+      <text>{{version}}</text>
+    </view>
+    <view class="about-item">
+      <text>开发者</text>
+      <text>{{author}}</text>
+    </view>
+  </view>
+</view>
