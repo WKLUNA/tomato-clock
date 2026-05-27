@@ -1,0 +1,80 @@
+<view class="page">
+  <!-- 空状态 -->
+  <view wx:if="{{todos.length === 0}}" class="empty">
+    <view class="empty-emoji">🍅</view>
+    <view class="empty-title">还没有待办</view>
+    <view class="empty-sub">点击右下角 + 添加你的第一个</view>
+  </view>
+
+  <!-- 待办列表 -->
+  <view wx:else class="todo-list">
+    <view
+      class="todo-card"
+      wx:for="{{todos}}"
+      wx:key="id"
+      bindlongpress="onLongPressTodo"
+      data-id="{{item.id}}"
+    >
+      <view class="todo-info">
+        <view class="todo-name">{{item.name}}</view>
+        <view class="todo-meta">
+          <text class="todo-duration">{{item.duration}} 分钟</text>
+          <text wx:if="{{item.todayCount > 0}}" class="todo-count">今日已专注 {{item.todayCount}} 次</text>
+        </view>
+      </view>
+      <view
+        class="todo-start"
+        catchtap="onStartTodo"
+        data-id="{{item.id}}"
+      >开始</view>
+    </view>
+  </view>
+
+  <!-- 悬浮添加按钮 -->
+  <view class="fab" bindtap="onShowAddDialog">+</view>
+
+  <!-- 添加/编辑弹窗 -->
+  <view wx:if="{{showDialog}}" class="dialog-mask" bindtap="onCloseDialog">
+    <view class="dialog" catchtap="onDialogTap">
+      <view class="dialog-title">{{editingId ? '编辑待办' : '添加待办'}}</view>
+
+      <input
+        class="dialog-input"
+        placeholder="待办名称（如 学英语）"
+        value="{{form.name}}"
+        bindinput="onInputName"
+        maxlength="20"
+      />
+
+      <view class="dialog-label">专注时长</view>
+      <view class="duration-options">
+        <view
+          wx:for="{{durationOptions}}"
+          wx:key="*this"
+          wx:for-item="opt"
+          class="duration-btn {{opt === form.duration && !form.isCustom ? 'active' : ''}}"
+          data-value="{{opt}}"
+          bindtap="onSelectDuration"
+        >{{opt}}分钟</view>
+        <view
+          class="duration-btn {{form.isCustom ? 'active' : ''}}"
+          bindtap="onSelectCustomDuration"
+        >自定义</view>
+      </view>
+
+      <input
+        wx:if="{{form.isCustom}}"
+        class="dialog-input"
+        type="number"
+        placeholder="输入分钟数 (1-180)"
+        value="{{form.customDuration}}"
+        bindinput="onInputCustomDuration"
+      />
+
+      <view class="dialog-actions">
+        <view class="dialog-btn dialog-cancel" bindtap="onCloseDialog">取消</view>
+        <view class="dialog-btn dialog-confirm" bindtap="onConfirmDialog">确定</view>
+      </view>
+    </view>
+  </view>
+</view>
