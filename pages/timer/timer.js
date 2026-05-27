@@ -1,3 +1,6 @@
+// 引入本地存储工具
+const storage = require('../../utils/storage.js');
+
 Page({
   /**
    * 页面的初始数据
@@ -175,6 +178,10 @@ Page({
       clearInterval(this.timer);
       this.timer = null;
     }
+    
+    // 写入番茄记录到本地存储（暂时硬编码 25 分钟）
+    const record = storage.addRecord(25);
+    console.log('已记录番茄：', record);
     
     // 短震动提示
     wx.vibrateShort({
