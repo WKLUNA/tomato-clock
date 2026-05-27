@@ -1,1 +1,50 @@
-<view>timer page</view>
+<!-- 页面容器 -->
+<view class="container">
+  <!-- 顶部三张统计卡片 -->
+  <view class="stats-cards">
+    <!-- 今日卡片 -->
+    <view class="stat-card today-card">
+      <text class="stat-number">{{ todayCount }}</text>
+      <text class="stat-label">今日番茄</text>
+    </view>
+    
+    <!-- 本周卡片 -->
+    <view class="stat-card">
+      <text class="stat-number">{{ weekCount }}</text>
+      <text class="stat-label">本周番茄</text>
+    </view>
+    
+    <!-- 总计卡片 -->
+    <view class="stat-card">
+      <text class="stat-number">{{ totalCount }}</text>
+      <text class="stat-label">总计番茄</text>
+    </view>
+  </view>
+  
+  <!-- 累计专注时长卡片 -->
+  <view class="total-minutes-card">
+    <text class="total-minutes-main">累计专注 {{ totalMinutes }} 分钟</text>
+    <text wx:if="{{ totalMinutes >= 60 }}" > 约 {{totalHours}} 小时
+    </text>
+  </view>
+  
+  <!-- 最近7天柱状图 -->
+  <view class="chart-card">
+    <text class="chart-title">最近7天</text>
+    <view class="chart-bars">
+      <view 
+        wx:for="{{ last7Days }}" 
+        wx:key="date" 
+        class="bar-item"
+      >
+        <text class="bar-count">{{ item.count }}</text>
+        <view 
+          class="bar" 
+          style="height: {{ (item.count / last7DaysMax) * 200 }}rpx;"
+          :class="{ 'bar-today': item.isToday }"
+        ></view>
+        <text class="bar-date">{{ item.date }}</text>
+      </view>
+    </view>
+  </view>
+</view>

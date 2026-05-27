@@ -1,0 +1,132 @@
+/* 页面整体样式 */
+page {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+}
+
+/* 容器 */
+.container {
+  padding: 20rpx;
+}
+
+/* 统计卡片组 */
+.stats-cards {
+  display: flex;
+  width: 100%;
+  gap: 16rpx;
+}
+
+/* 单个统计卡片 */
+.stat-card {
+  flex: 1;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 今日卡片高亮 */
+.today-card {
+  background-color: #FFF5F5;
+}
+
+/* 统计数字 */
+.stat-number {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #FF6B6B;
+}
+
+/* 统计标签 */
+.stat-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-top: 8rpx;
+}
+
+/* 累计时长卡片 */
+.total-minutes-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 24rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  text-align: center;
+}
+
+/* 累计时长主文字 */
+.total-minutes-main {
+  font-size: 32rpx;
+  color: #333333;
+}
+
+/* 累计时长小时数 */
+.total-minutes-hours {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  margin-top: 12rpx;
+}
+
+/* 柱状图卡片 */
+.chart-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 32rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+/* 图表标题 */
+.chart-title {
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 30rpx;
+}
+
+/* 柱状图容器 */
+.chart-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 280rpx;
+}
+
+/* 单个柱子项 */
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 柱子上方数字 */
+.bar-count {
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 8rpx;
+}
+
+/* 柱子 */
+.bar {
+  width: 40rpx;
+  border-radius: 8rpx 8rpx 0 0;
+  background-color: #FFB8B8;
+}
+
+/* 今天的柱子高亮 */
+.bar-today {
+  background-color: #FF6B6B;
+}
+
+/* 柱子下方日期 */
+.bar-date {
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 12rpx;
+}

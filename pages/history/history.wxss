@@ -11,11 +11,13 @@ page {
 
 /* 记录列表 */
 .record-list {
-  padding: 20rpx;
+  padding: 0;
 }
 
 /* 列表项 */
 .record-item {
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   background-color: #FFFFFF;
