@@ -1,0 +1,49 @@
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120rpx;
+  padding-bottom: env(safe-area-inset-bottom);   /* 适配 iPhone X 等带底部安全区的机型 */
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2rpx 16rpx rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  box-sizing: content-box;
+}
+
+.tab-item {
+  flex: 1;
+  height: 100rpx;
+  margin: 10rpx 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  transition: background 0.2s ease;
+}
+
+/* 当前选中的 tab：浅红圆角胶囊 */
+.tab-item.active {
+  background: #FFF0F0;
+}
+
+.tab-icon {
+  font-size: 40rpx;
+  line-height: 1;
+  margin-bottom: 6rpx;
+}
+
+.tab-text {
+  font-size: 22rpx;
+  color: #999;
+  font-weight: 500;
+}
+
+.tab-item.active .tab-text {
+  color: #FF6B6B;
+  font-weight: 600;
+}

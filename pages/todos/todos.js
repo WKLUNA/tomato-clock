@@ -24,6 +24,10 @@ Page({
    * 页面显示时刷新（用户从计时页返回后能看到最新的"今日已专注"次数）
    */
   onShow() {
+  // 同步自定义 tabBar 的选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 0 });
+    }
     this.loadTodos();
   },
 

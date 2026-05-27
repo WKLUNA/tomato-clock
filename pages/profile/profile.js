@@ -17,9 +17,12 @@ Page({
   /**
    * 页面显示时刷新用户统计数据
    */
-  onShow() {
+    onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+        this.getTabBar().setData({ selected: 2 });
+    }
     this.loadUserStats();
-  },
+    },
 
   /**
    * 加载用户统计数据（用于顶部卡片）
