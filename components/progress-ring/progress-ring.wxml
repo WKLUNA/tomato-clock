@@ -1,0 +1,15 @@
+<!-- 进度环组件 -->
+<view class="ring-container">
+  <!-- canvas 画布 -->
+  <canvas
+    type="2d"
+    id="ring"
+    class="ring-canvas"
+  ></canvas>
+  
+  <!-- 中间文字区域 -->
+  <view class="ring-text">
+    <text class="time-text">{{displayMinutes}}:{{displaySeconds}}</text>
+    <text class="status-text">{{statusText}}</text>
+  </view>
+</view>

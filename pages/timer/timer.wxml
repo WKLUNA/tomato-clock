@@ -3,17 +3,12 @@
   <!-- 顶部留白区域 -->
   <view class="top-space"></view>
   
-  <!-- 圆环容器 -->
-  <view class="circle-wrapper">
-    <!-- 红色圆环 -->
-    <view class="timer-circle">
-      <!-- 时间显示 -->
-      <view class="time-display">{{ formattedTime }}</view>
-    </view>
-  </view>
-  
-  <!-- 状态文字 -->
-  <view class="status-text">{{ status }}</view>
+  <!-- 进度环组件 -->
+  <progress-ring
+    total="{{currentDuration * 60}}"
+    remaining="{{minutes * 60 + seconds}}"
+    running="{{isRunning}}"
+  />
   
   <!-- 按钮区域 -->
   <view class="btn-container">

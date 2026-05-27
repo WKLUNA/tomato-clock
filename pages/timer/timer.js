@@ -6,11 +6,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    minutes: 25,           // 当前显示的分钟（暂时硬编码为25分钟）
-    seconds: 0,            // 当前显示的秒（暂时硬编码为0）
-    isRunning: false,      // 是否正在计时（决定按钮显示"开始"还是"暂停"）
-    status: '专注时间',     // 状态文字（暂时只显示这一个）
-    formattedTime: '25:00' // 格式化后的时间字符串
+    minutes: 25,           // 当前显示的分钟
+    seconds: 0,            // 当前显示的秒
+    isRunning: false,      // 是否正在计时
+    status: '专注时间',     // 状态文字
+    formattedTime: '25:00', // 格式化后的时间字符串
+    currentDuration: 25     // 本轮计时使用的时长（分钟）
   },
 
   /**
@@ -26,7 +27,7 @@ Page({
   /**
    * 本轮计时使用的时长（分钟数），用于检测设置是否变化
    */
-  currentDuration: null,
+  currentDuration: 5,
 
   /**
    * 生命周期函数--监听页面显示
@@ -48,7 +49,8 @@ Page({
       this.setData({
         minutes: newDuration,
         seconds: 0,
-        isRunning: false
+        isRunning: false,
+        currentDuration: newDuration
       });
       this.updateFormattedTime();
       return;
@@ -236,7 +238,8 @@ Page({
       minutes: settings.focusDuration,
       seconds: 0,
       isRunning: false,
-      status: '专注时间'
+      status: '专注时间',
+      currentDuration: settings.focusDuration
     });
     
     // 更新格式化时间
@@ -270,7 +273,8 @@ Page({
       minutes: settings.focusDuration,
       seconds: 0,
       isRunning: false,
-      status: '专注时间'
+      status: '专注时间',
+      currentDuration: settings.focusDuration
     });
     
     // 更新格式化时间
