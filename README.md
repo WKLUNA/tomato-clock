@@ -36,24 +36,26 @@
 
 ## 项目结构
 
+```
 .
 ├── app.json / app.js / app.wxss
-├── custom-tab-bar/         自定义底部导航栏（全局组件）
+├── custom-tab-bar/          自定义底部导航栏（全局组件）
 ├── components/
-│   └── progress-ring/      圆环进度自定义组件
+│   └── progress-ring/       圆环进度自定义组件
 ├── pages/
-│   ├── todos/              主页：待办列表
-│   ├── timer/              计时页（navigateTo 独立路由）
-│   ├── stats/              统计页
-│   ├── history/            历史记录页
-│   ├── countdowns/         未来倒计时页
-│   └── profile/            我的
+│   ├── todos/               主页：待办列表
+│   ├── timer/               计时页（navigateTo 独立路由）
+│   ├── stats/               统计页
+│   ├── history/             历史记录页
+│   ├── countdowns/          未来倒计时页
+│   └── profile/             我的
 └── utils/
-├── storage.js          本地存储工具
-├── format.js           时间格式化工具
-└── stats.js            统计计算工具
+    ├── storage.js           本地存储工具
+    ├── format.js            时间格式化工具
+    └── stats.js             统计计算工具
+```
 
 ## 开发者
 
-- 学号：【2022211291】
-- 姓名：【金凡皙】
+- 学号：2022211291
+- 姓名:金凡皙
